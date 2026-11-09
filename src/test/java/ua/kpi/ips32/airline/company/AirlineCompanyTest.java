@@ -3,8 +3,8 @@ package ua.kpi.ips32.airline.company;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ua.kpi.ips32.airline.model.Aircraft;
+import ua.kpi.ips32.airline.model.BusinessJet;
 import ua.kpi.ips32.airline.model.CargoAircraft;
-import ua.kpi.ips32.airline.model.MilitaryTransportAircraft;
 import ua.kpi.ips32.airline.model.PassengerAircraft;
 
 import java.util.List;
@@ -21,21 +21,21 @@ class AirlineCompanyTest {
     void setUp() {
         company = new AirlineCompany("Test Air");
         company.addAircraft(new PassengerAircraft("B737", 5600, 2.4, 189, 5.0));
-        company.addAircraft(new CargoAircraft("An-124", 5400, 12.0, 120.0, 6));
-        company.addAircraft(new MilitaryTransportAircraft("Il-76", 7300, 8.5, 126, 48.0));
+        company.addAircraft(new CargoAircraft("An-124", 5400, 12.0, 120.0));
+        company.addAircraft(new BusinessJet("G650", 12200, 1.7, 18, 1.2));
         company.addAircraft(new PassengerAircraft("CRJ900", 2900, 1.5, 90, 1.5));
     }
 
     @Test
     void calculatesTotalPassengerCapacity() {
-        // 189 + 6 + 126 + 90
-        assertEquals(411, company.getTotalPassengerCapacity());
+        // 189 + 0 + 18 + 90
+        assertEquals(297, company.getTotalPassengerCapacity());
     }
 
     @Test
     void calculatesTotalCargoCapacity() {
-        // 5 + 120 + 48 + 1.5
-        assertEquals(174.5, company.getTotalCargoCapacityTons(), 0.0001);
+        // 5 + 120 + 1.2 + 1.5
+        assertEquals(127.7, company.getTotalCargoCapacityTons(), 0.0001);
     }
 
     @Test
@@ -46,16 +46,16 @@ class AirlineCompanyTest {
         assertEquals("CRJ900", fleet.get(0).getModel());
         assertEquals("An-124", fleet.get(1).getModel());
         assertEquals("B737", fleet.get(2).getModel());
-        assertEquals("Il-76", fleet.get(3).getModel());
+        assertEquals("G650", fleet.get(3).getModel());
     }
 
     @Test
     void findsAircraftByFuelRange() {
-        List<Aircraft> found = company.findByFuelConsumption(2.0, 9.0);
+        List<Aircraft> found = company.findByFuelConsumption(1.6, 3.0);
 
         assertEquals(2, found.size());
         assertTrue(found.stream().anyMatch(a -> a.getModel().equals("B737")));
-        assertTrue(found.stream().anyMatch(a -> a.getModel().equals("Il-76")));
+        assertTrue(found.stream().anyMatch(a -> a.getModel().equals("G650")));
     }
 
     @Test

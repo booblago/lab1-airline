@@ -1,8 +1,8 @@
 package ua.kpi.ips32.airline.io;
 
 import ua.kpi.ips32.airline.model.Aircraft;
+import ua.kpi.ips32.airline.model.BusinessJet;
 import ua.kpi.ips32.airline.model.CargoAircraft;
-import ua.kpi.ips32.airline.model.MilitaryTransportAircraft;
 import ua.kpi.ips32.airline.model.PassengerAircraft;
 
 import java.io.BufferedReader;
@@ -18,11 +18,11 @@ import java.util.List;
 /**
  * Читає параметри літаків з текстового файлу.
  * Формат рядка:
- * TYPE;model;rangeKm;fuelPerHour;capacity1;capacity2
+ * TYPE;model;rangeKm;fuelPerHour;param1;param2
  *
- * PASSENGER  -> seats; cargoTons
- * CARGO      -> cargoTons; crewSeats
- * MILITARY   -> troopCapacity; cargoTons
+ * PASSENGER    -> seats; cargoTons
+ * CARGO        -> cargoTons; (param2 ignored, put 0)
+ * BUSINESS_JET -> seats; cargoTons
  */
 public class AircraftFileLoader {
 
@@ -79,9 +79,9 @@ public class AircraftFileLoader {
             case "PASSENGER":
                 return new PassengerAircraft(model, rangeKm, fuel, (int) first, second);
             case "CARGO":
-                return new CargoAircraft(model, rangeKm, fuel, first, (int) second);
-            case "MILITARY":
-                return new MilitaryTransportAircraft(model, rangeKm, fuel, (int) first, second);
+                return new CargoAircraft(model, rangeKm, fuel, first);
+            case "BUSINESS_JET":
+                return new BusinessJet(model, rangeKm, fuel, (int) first, second);
             default:
                 throw new IllegalArgumentException("Unknown aircraft type: " + type);
         }
