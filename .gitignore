@@ -1,0 +1,32 @@
+# compiled
+target/
+*.class
+*.jar
+*.war
+*.ear
+
+# ide
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+.classpath
+.project
+.settings/
+out/
+bin/
+
+# os
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# logs / temp
+*.log
+*.tmp
+*.swp
+*~
+
+# maven wrapper local
+.mvn/wrapper/maven-wrapper.jar
